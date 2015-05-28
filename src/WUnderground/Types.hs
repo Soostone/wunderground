@@ -23,7 +23,6 @@ module WUnderground.Types
     , Observation
     , obsImage
     , obsDisplayLoc
-    , obsLoc
     , obsTime
     , obsLocalTime
     , obsWeather
@@ -41,7 +40,16 @@ module WUnderground.Types
     , imageUrl
     , imageTitle
     , imageLink
-    , Location(..)
+    , DisplayLocation(..)
+    , locationFull
+    , loationCity
+    , loationState
+    , loationStateName
+    , loationCountry
+    , loationCountryISO
+    , loationZip
+    , loationLat
+    , loationLng
     , Lat(..)
     , lat
     , Lng(..)
@@ -56,6 +64,20 @@ module WUnderground.Types
     , kph
     , Weather(..)
     , weatherText
+    , LocationFullName(..)
+    , locationFullNameText
+    , City(..)
+    , cityText
+    , GeoState(..)
+    , geoStateText
+    , GeoStateName(..)
+    , geoStateNameText
+    , Country(..)
+    , countryText
+    , CountryISO3166(..)
+    , countryISO3166Text
+    , PostalCode(..)
+    , postalCodeText
     -- * Responses
     , ObservationResponse(..)
     ) where
@@ -121,7 +143,10 @@ newtype APIKey = APIKey {
 -- easily embedded in your own monad transformer stack. A default
 -- instance for a ReaderT and alias 'WU' is provided for the simple
 -- case.
-class (Functor m, Applicative m, MonadThrow m, MonadIO m) => MonadWU m where
+class ( Functor m
+      , Applicative m
+      , MonadThrow m
+      , MonadIO m) => MonadWU m where
   getWUConfig :: m WUConfig
 
 
@@ -132,6 +157,8 @@ newtype WU m a = WU {
                , Monad
                , MonadIO
                , MonadThrow
+               , MonadCatch
+               , MonadMask
                , MonadState s
                , MonadWriter w
                , MonadPlus
@@ -161,7 +188,7 @@ runWU e f = runReaderT (unWU f) e
 -------------------------------------------------------------------------------
 data WUError = WUHttpException HttpException
              | WUParseError Text
-               deriving (Show, Typeable, Generic) --TODO: other errors
+               deriving (Show, Typeable, Generic)
 
 
 instance Exception WUError
@@ -172,8 +199,7 @@ instance Exception WUError
 -------------------------------------------------------------------------------
 data Observation = Observation {
       _obsImage       :: Image
-    , _obsDisplayLoc  :: Location
-    , _obsLoc         :: Location
+    , _obsDisplayLoc  :: DisplayLocation
     , _obsTime        :: UTCTime
     , _obsLocalTime   :: UTCTime
     , _obsWeather     :: Weather
@@ -196,7 +222,6 @@ instance FromJSON Observation where
       parse o = Observation
         <$> o .: "image"
         <*> o .: "display_location"
-        <*> o .: "observation_location"
         <*> (unEpoch <$> o .: "observation_epoch")
         <*> (unEpoch <$> o .: "local_epoch")
         <*> o .: "weather"
@@ -231,11 +256,77 @@ instance FromJSON Image where
 
 
 -------------------------------------------------------------------------------
-data Location = Location deriving (Show, Eq, Generic, Typeable) --TODO
+data DisplayLocation = DisplayLocation {
+      _locationFull      :: LocationFullName
+    , _loationCity       :: City
+    , _loationState      :: GeoState
+    , _loationStateName  :: GeoStateName
+    , _loationCountry    :: Country
+    , _loationCountryISO :: CountryISO3166
+    , _loationZip        :: PostalCode
+    --TODO: magic? wmo?
+    , _loationLat        :: Lat
+    , _loationLng        :: Lng
+    } deriving (Show, Eq, Generic, Typeable)
 
 
-instance FromJSON Location where
-  parseJSON _ = pure Location --TODO
+instance FromJSON DisplayLocation where
+  parseJSON = withObject "DisplayLocation" parse
+    where
+      parse o = DisplayLocation
+        <$> o .: "full"
+        <*> o .: "city"
+        <*> o .: "state"
+        <*> o .: "state_name"
+        <*> o .: "country"
+        <*> o .: "country_iso3166"
+        <*> o .: "zip"
+        <*> o .: "latitude"
+        <*> o .: "longitude"
+
+
+-------------------------------------------------------------------------------
+newtype LocationFullName = LocationFullName {
+      _locationFullNameText :: Text
+    } deriving (Show, Eq, Ord, Generic, Typeable, FromJSON)
+
+
+-------------------------------------------------------------------------------
+newtype City = City {
+      _cityText :: Text
+    } deriving (Show, Eq, Ord, Generic, Typeable, FromJSON)
+
+
+-------------------------------------------------------------------------------
+-- | GeoState as opposed to the State monad
+newtype GeoState = GeoState {
+      _geoStateText :: Text
+    } deriving (Show, Eq, Ord, Generic, Typeable, FromJSON)
+
+
+-------------------------------------------------------------------------------
+newtype GeoStateName = GeoStateName {
+      _geoStateNameText :: Text
+    } deriving (Show, Eq, Ord, Generic, Typeable, FromJSON)
+
+
+-------------------------------------------------------------------------------
+newtype Country = Country {
+      _countryText :: Text
+    } deriving (Show, Eq, Ord, Generic, Typeable, FromJSON)
+
+
+-------------------------------------------------------------------------------
+--TODO: smart constructor
+newtype CountryISO3166 = CountryISO3166 {
+      _countryISO3166Text :: Text
+    } deriving (Show, Eq, Ord, Generic, Typeable, FromJSON)
+
+
+-------------------------------------------------------------------------------
+newtype PostalCode = PostalCode {
+      _postalCodeText :: Text
+    } deriving (Show, Eq, Ord, Generic, Typeable, FromJSON)
 
 
 -------------------------------------------------------------------------------
@@ -244,10 +335,18 @@ newtype Lat = Lat {
     } deriving (Show, Eq, Ord, Generic, Typeable)
 
 
+instance FromJSON Lat where
+  parseJSON v = Lat . unDJS <$> parseJSON v
+
+
 -------------------------------------------------------------------------------
 newtype Lng = Lng {
       _lng :: Double
     } deriving (Show, Eq, Ord, Generic, Typeable)
+
+
+instance FromJSON Lng where
+  parseJSON v = Lng . unDJS <$> parseJSON v
 
 
 -------------------------------------------------------------------------------
@@ -285,14 +384,15 @@ newtype Weather = Weather {
 -------------------------------------------------------------------------------
 data ObservationResponse = ObservationResponse {
       responseObservation :: Maybe Observation
-    } deriving (Show, Eq, Generic, Types)
+    } deriving (Show, Eq, Generic, Typeable)
 
 
 instance FromJSON ObservationResponse where
   parseJSON = withObject "ObservationResponse" parse
     where
       parse o = do
-        me <- optional $ o .: "error"
+        resp <- o .: "response"
+        me <- optional $ resp .: "error"
         case me of
           Just e
             | responseErrorType e == "querynotfound" -> return $ ObservationResponse Nothing
@@ -363,7 +463,14 @@ makeLenses ''WUConfig
 makeLenses ''APIKey
 makeLenses ''Observation
 makeLenses ''Image
-makeLenses ''Location
+makeLenses ''DisplayLocation
+makeLenses ''LocationFullName
+makeLenses ''City
+makeLenses ''GeoState
+makeLenses ''GeoStateName
+makeLenses ''Country
+makeLenses ''CountryISO3166
+makeLenses ''PostalCode
 makeLenses ''Lat
 makeLenses ''Lng
 makeLenses ''TempF

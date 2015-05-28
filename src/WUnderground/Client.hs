@@ -8,6 +8,7 @@ module WUnderground.Client
 
 
 -------------------------------------------------------------------------------
+import           Control.Exception     as E
 import           Control.Lens
 import           Control.Monad.Catch
 import           Control.Monad.Reader
@@ -34,7 +35,11 @@ withWU ms k f = withManager ms $ \mgr -> do
 
 
 -------------------------------------------------------------------------------
-coordinateConditions :: MonadWU m => Lat -> Lng -> m ObservationResponse
+coordinateConditions
+    :: (MonadWU m)
+    => Lat
+    -> Lng
+    -> m ObservationResponse
 coordinateConditions lt lg = makeRequest "GET" path
   where
     path = "/geolookup/conditions/q/" <> showBS (lt ^. lat) <> "," <> showBS (lg ^. lng) <> ".json"
@@ -42,7 +47,12 @@ coordinateConditions lt lg = makeRequest "GET" path
 
 -------------------------------------------------------------------------------
 --TODO: capture http errors, roll into an exception type
-makeRequest :: (FromJSON a, MonadWU m) => Method -> ByteString -> m a
+makeRequest
+    :: ( FromJSON a
+       , MonadWU m)
+    => Method
+    -> ByteString
+    -> m a
 makeRequest meth p = do
     cfg <- getWUConfig
     --TODO: consolidate?
@@ -51,9 +61,12 @@ makeRequest meth p = do
     let bu = cfg ^. wuBaseURI
     let finalURI = bu & uriPathL <>~ ("/" <> pathAppend)
     req <- setURI def finalURI
-    resp <- liftIO $ httpLbs req (cfg ^. wuManager)
+    res <- liftIO $ E.try $ httpLbs req (cfg ^. wuManager)
+    resp <- either handleHttpException return res
     let parsed = eitherDecode (responseBody resp)
     either (throwM . WUParseError . view packed) return parsed
+  where
+    handleHttpException = throwM . WUHttpException
 
 
 -------------------------------------------------------------------------------
