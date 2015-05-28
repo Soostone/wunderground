@@ -1,0 +1,407 @@
+{
+  "response": {
+    "version": "0.1",
+    "termsofService": "http://www.wunderground.com/weather/api/d/terms.html",
+    "features": {
+      "geolookup": 1,
+      "conditions": 1
+    }
+  },
+  "location": {
+    "type": "CITY",
+    "country": "US",
+    "country_iso3166": "US",
+    "country_name": "USA",
+    "state": "NY",
+    "city": "New York",
+    "tz_short": "EDT",
+    "tz_long": "America/New_York",
+    "lat": "40.750000",
+    "lon": "-73.980000",
+    "zip": "10172",
+    "magic": "1",
+    "wmo": "99999",
+    "l": "/q/zmw:10172.1.99999",
+    "requesturl": "US/NY/New_York.html",
+    "wuiurl": "http://www.wunderground.com/US/NY/New_York.html",
+    "nearby_weather_stations": {
+      "airport": {
+        "station": [
+          {
+            "city": "Central Park",
+            "state": "NY",
+            "country": "US",
+            "icao": "KNYC",
+            "lat": "40.77899933",
+            "lon": "-73.96924591"
+          },
+          {
+            "city": "",
+            "state": "",
+            "country": "",
+            "icao": "",
+            "lat": "",
+            "lon": ""
+          },
+          {
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "icao": "KLGA",
+            "lat": "40.77944565",
+            "lon": "-73.88027191"
+          },
+          {
+            "city": "Teterboro",
+            "state": "NJ",
+            "country": "US",
+            "icao": "KTEB",
+            "lat": "40.85899353",
+            "lon": "-74.05616760"
+          }
+        ]
+      },
+      "pws": {
+        "station": [
+          {
+            "neighborhood": "Midtown",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO165",
+            "lat": 40.749748,
+            "lon": -73.978706,
+            "distance_km": 0,
+            "distance_mi": 0
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO178",
+            "lat": 40.747269,
+            "lon": -73.980064,
+            "distance_km": 0,
+            "distance_mi": 0
+          },
+          {
+            "neighborhood": "Midtown East",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO91",
+            "lat": 40.752632,
+            "lon": -73.979225,
+            "distance_km": 0,
+            "distance_mi": 0
+          },
+          {
+            "neighborhood": "Murray Hill",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO71",
+            "lat": 40.746399,
+            "lon": -73.981598,
+            "distance_km": 0,
+            "distance_mi": 0
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO157",
+            "lat": 40.742962,
+            "lon": -73.98127,
+            "distance_km": 0,
+            "distance_mi": 0
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO230",
+            "lat": 40.744087,
+            "lon": -73.990326,
+            "distance_km": 1,
+            "distance_mi": 0
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO258",
+            "lat": 40.746979,
+            "lon": -73.99662,
+            "distance_km": 1,
+            "distance_mi": 0
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO307",
+            "lat": 40.745659,
+            "lon": -73.999336,
+            "distance_km": 1,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO122",
+            "lat": 40.742073,
+            "lon": -73.998711,
+            "distance_km": 1,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO141",
+            "lat": 40.742153,
+            "lon": -73.999138,
+            "distance_km": 1,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO154",
+            "lat": 40.741257,
+            "lon": -73.999382,
+            "distance_km": 1,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "Hoboken",
+            "state": "NJ",
+            "country": "US",
+            "id": "KNJHOBOK7",
+            "lat": 40.745789,
+            "lon": -74.003204,
+            "distance_km": 2,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "East Village",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO205",
+            "lat": 40.731701,
+            "lon": -73.988503,
+            "distance_km": 2,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "East Village",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO256",
+            "lat": 40.731346,
+            "lon": -73.989662,
+            "distance_km": 2,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "East Village",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO210",
+            "lat": 40.728363,
+            "lon": -73.985046,
+            "distance_km": 2,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "Lower Manhattan",
+            "city": "Hoboken",
+            "state": "NJ",
+            "country": "US",
+            "id": "KNJHOBOK12",
+            "lat": 40.738083,
+            "lon": -74.004951,
+            "distance_km": 2,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "Lower Manhattan",
+            "city": "Hoboken",
+            "state": "NJ",
+            "country": "US",
+            "id": "KNJHOBOK14",
+            "lat": 40.738029,
+            "lon": -74.00499,
+            "distance_km": 2,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "East Village",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO120",
+            "lat": 40.727585,
+            "lon": -73.98513,
+            "distance_km": 2,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "Lower Manhattan",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO311",
+            "lat": 40.72818,
+            "lon": -73.99408,
+            "distance_km": 2,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "Lower Manhattan",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO170",
+            "lat": 40.73093,
+            "lon": -74.000412,
+            "distance_km": 2,
+            "distance_mi": 1
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO193",
+            "lat": 40.75145,
+            "lon": -73.978241,
+            "distance_km": 0,
+            "distance_mi": 0
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "New York",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYNEWYO264",
+            "lat": 40.750134,
+            "lon": -73.977074,
+            "distance_km": 0,
+            "distance_mi": 0
+          },
+          {
+            "neighborhood": "Midtown",
+            "city": "Long Island City",
+            "state": "NY",
+            "country": "US",
+            "id": "KNYLONGI7",
+            "lat": 40.746727,
+            "lon": -73.974274,
+            "distance_km": 0,
+            "distance_mi": 0
+          }
+        ]
+      }
+    }
+  },
+  "current_observation": {
+    "image": {
+      "url": "http://icons.wxug.com/graphics/wu2/logo_130x80.png",
+      "title": "Weather Underground",
+      "link": "http://www.wunderground.com"
+    },
+    "display_location": {
+      "full": "New York, NY",
+      "city": "New York",
+      "state": "NY",
+      "state_name": "New York",
+      "country": "US",
+      "country_iso3166": "US",
+      "zip": "10172",
+      "magic": "1",
+      "wmo": "99999",
+      "latitude": "40.750000",
+      "longitude": "-73.980000",
+      "elevation": "34.00000000"
+    },
+    "observation_location": {
+      "full": "Murray Hill, New York, New York",
+      "city": "Murray Hill, New York",
+      "state": "New York",
+      "country": "US",
+      "country_iso3166": "US",
+      "latitude": "40.746399",
+      "longitude": "-73.981598",
+      "elevation": "98 ft"
+    },
+    "estimated": {},
+    "station_id": "KNYNEWYO71",
+    "observation_time": "Last Updated on May 28, 6:19 PM EDT",
+    "observation_time_rfc822": "Thu, 28 May 2015 18:19:57 -0400",
+    "observation_epoch": "1432851597",
+    "local_time_rfc822": "Thu, 28 May 2015 18:20:19 -0400",
+    "local_epoch": "1432851619",
+    "local_tz_short": "EDT",
+    "local_tz_long": "America/New_York",
+    "local_tz_offset": "-0400",
+    "weather": "Scattered Clouds",
+    "temperature_string": "82.9 F (28.3 C)",
+    "temp_f": 82.9,
+    "temp_c": 28.3,
+    "relative_humidity": "62%",
+    "wind_string": "From the ESE at 1.0 MPH Gusting to 4.0 MPH",
+    "wind_dir": "ESE",
+    "wind_degrees": 117,
+    "wind_mph": 1,
+    "wind_gust_mph": "4.0",
+    "wind_kph": 1.6,
+    "wind_gust_kph": "6.4",
+    "pressure_mb": "1020",
+    "pressure_in": "30.11",
+    "pressure_trend": "+",
+    "dewpoint_string": "68 F (20 C)",
+    "dewpoint_f": 68,
+    "dewpoint_c": 20,
+    "heat_index_string": "86 F (30 C)",
+    "heat_index_f": 86,
+    "heat_index_c": 30,
+    "windchill_string": "NA",
+    "windchill_f": "NA",
+    "windchill_c": "NA",
+    "feelslike_string": "86 F (30 C)",
+    "feelslike_f": "86",
+    "feelslike_c": "30",
+    "visibility_mi": "10.0",
+    "visibility_km": "16.1",
+    "solarradiation": "--",
+    "UV": "2",
+    "precip_1hr_string": "0.00 in ( 0 mm)",
+    "precip_1hr_in": "0.00",
+    "precip_1hr_metric": " 0",
+    "precip_today_string": "0.00 in (0 mm)",
+    "precip_today_in": "0.00",
+    "precip_today_metric": "0",
+    "icon": "partlycloudy",
+    "icon_url": "http://icons.wxug.com/i/c/k/partlycloudy.gif",
+    "forecast_url": "http://www.wunderground.com/US/NY/New_York.html",
+    "history_url": "http://www.wunderground.com/weatherstation/WXDailyHistory.asp?ID=KNYNEWYO71",
+    "ob_url": "http://www.wunderground.com/cgi-bin/findweather/getForecast?query=40.746399,-73.981598",
+    "nowcast": ""
+  }
+}

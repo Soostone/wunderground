@@ -12,7 +12,9 @@ module WUnderground.Types
     , wuManager
     , wuBaseURI
     , wuAPIKey
+    , wuHttpRequest
     , defaultWUConfig
+    , defaultHttpRequest
     , APIKey(..)
     , apiKeyText
     , MonadWU(..)
@@ -20,7 +22,7 @@ module WUnderground.Types
     , runWU
     , WUError(..)
     -- * API Types
-    , Observation
+    , Observation(..)
     , obsImage
     , obsDisplayLoc
     , obsTime
@@ -80,6 +82,7 @@ module WUnderground.Types
     , postalCodeText
     -- * Responses
     , ObservationResponse(..)
+    , ResponseError(..)
     ) where
 
 
@@ -93,8 +96,7 @@ import           Control.Monad.State
 import           Control.Monad.Writer
 import           Data.Aeson
 import           Data.Aeson.Types      (typeMismatch)
-import           Data.Maybe
-import           Data.Monoid
+import qualified Data.ByteString.Lazy  as LBS
 import           Data.Scientific
 import           Data.Text             (Text)
 import           Data.Text.Strict.Lens (packed)
@@ -115,6 +117,8 @@ data WUConfig = WUConfig {
     -- ^ Note that if you provide an alternative URI that uses SSL, you should use manager settings from @http-client-tls@
     , _wuBaseURI :: URI
     , _wuAPIKey  :: APIKey
+    , _wuHttpRequest :: Request -> Manager -> IO LBS.ByteString
+    -- ^ Swappable http backend for testing
     } deriving (Typeable)
 
 
@@ -122,7 +126,7 @@ data WUConfig = WUConfig {
 -- | Uses the default wunderground base URI
 -- (http://api.wunderground.com/api)
 defaultWUConfig :: Manager -> APIKey -> WUConfig
-defaultWUConfig mgr = WUConfig mgr defaultURI
+defaultWUConfig mgr k = WUConfig mgr defaultURI k defaultHttpRequest
   where
     defaultURI = URI (Scheme "http")
                      (Just $ Authority Nothing (Host "api.wunderground.com") Nothing)
@@ -130,6 +134,11 @@ defaultWUConfig mgr = WUConfig mgr defaultURI
                      mempty
                      Nothing
 
+
+-------------------------------------------------------------------------------
+-- | Default http backend. Its usually best to use this outside of testing.
+defaultHttpRequest :: Request -> Manager -> IO LBS.ByteString
+defaultHttpRequest r m = responseBody <$> httpLbs r m
 
 
 -------------------------------------------------------------------------------
@@ -213,6 +222,7 @@ data Observation = Observation {
     , _obsDewpointC   :: TempC
     , _obsFeelsLikeF  :: TempF
     , _obsFeelsLikeC  :: TempC
+    --TODO: missing several fields
     } deriving (Show, Eq, Generic, Typeable)
 
 
@@ -430,6 +440,7 @@ instance FromJSON Epoch where
     where
       parseInt :: Scientific -> Maybe Int
       parseInt = toBoundedInteger
+      go :: Int -> Epoch
       go n = Epoch $ posixSecondsToUTCTime $ fromIntegral n
 
 

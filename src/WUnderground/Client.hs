@@ -8,6 +8,7 @@ module WUnderground.Client
 
 
 -------------------------------------------------------------------------------
+import           Control.Applicative
 import           Control.Exception     as E
 import           Control.Lens
 import           Control.Monad.Catch
@@ -46,7 +47,6 @@ coordinateConditions lt lg = makeRequest "GET" path
 
 
 -------------------------------------------------------------------------------
---TODO: capture http errors, roll into an exception type
 makeRequest
     :: ( FromJSON a
        , MonadWU m)
@@ -57,26 +57,28 @@ makeRequest meth p = do
     cfg <- getWUConfig
     --TODO: consolidate?
     let k = cfg ^. wuAPIKey . apiKeyText . re utf8
-    let pathAppend = k <> "/" <> p
+    let pathAppend = k <> p
     let bu = cfg ^. wuBaseURI
     let finalURI = bu & uriPathL <>~ ("/" <> pathAppend)
-    req <- setURI def finalURI
-    res <- liftIO $ E.try $ httpLbs req (cfg ^. wuManager)
-    resp <- either handleHttpException return res
-    let parsed = eitherDecode (responseBody resp)
+    req <- setURI meth def finalURI
+    httpRequest <- _wuHttpRequest <$> getWUConfig
+    res <- liftIO $ E.try $ httpRequest req (cfg ^. wuManager)
+    body <- either handleHttpException return res
+    let parsed = eitherDecode body
     either (throwM . WUParseError . view packed) return parsed
   where
     handleHttpException = throwM . WUHttpException
 
 
 -------------------------------------------------------------------------------
-setURI :: MonadThrow m => Request -> URI -> m Request
-setURI req URI{..} = do
+setURI :: MonadThrow m => Method -> Request -> URI -> m Request
+setURI meth req URI{..} = do
   Authority {..} <- maybe missingUA return uriAuthority
   let req' = req { secure = isSecure
                  , host   = hostBS authorityHost
                  , port   = thePort
                  , path   = uriPath
+                 , method = meth
                  }
       thePort = maybe defPort portNumber authorityPort
       addAuth = maybe id addAuth' authorityUserInfo
