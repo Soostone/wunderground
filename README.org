@@ -1,0 +1,15 @@
+* wunderground
+  This library is an attempt to provide a reasonably safe and
+  performant set of API bindings to the [[http://wunderground.com][WUnderground]] weather API. It
+  is designed in applications, so it is easy to use in pre-existing
+  monad transformer stacks.
+* Status
+  Currently, =wunderground= does not support all of the APIs or fields
+  provided by the WUnderground API. Part of that is due to
+  prioritizing exactly the APIs that were needed for a business use
+  case and part of it has to do with ambiguous documentation about the
+  meanings and possible values of several fields.
+* Tasks
+** TODO Travis CI
+** TODO Other APIs besides weather-by-coords
+** TODO Fill out more missing fields
