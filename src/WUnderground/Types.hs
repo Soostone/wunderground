@@ -171,6 +171,7 @@ newtype WU m a = WU {
                , MonadState s
                , MonadWriter w
                , MonadPlus
+               , Alternative
                , MonadFix)
 
 instance MonadTrans WU where
