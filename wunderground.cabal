@@ -28,7 +28,7 @@ library
                      , lens >= 4.7 && < 4.10
                      , time >= 1.0 && < 1.6
                      , scientific
-                     , uri-bytestring >= 0.1 && < 0.2
+                     , uri-bytestring >= 0.1.2 && < 0.2
                      , bytestring
                      , mtl
                      , http-types
