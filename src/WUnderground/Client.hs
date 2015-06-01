@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP               #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards   #-}
 module WUnderground.Client
@@ -8,7 +9,9 @@ module WUnderground.Client
 
 
 -------------------------------------------------------------------------------
+#if !MIN_VERSION_base(4,8,0)
 import           Control.Applicative
+#endif
 import           Control.Exception     as E
 import           Control.Lens
 import           Control.Monad.Catch
@@ -17,7 +20,9 @@ import           Data.Aeson
 import           Data.ByteString       (ByteString)
 import qualified Data.ByteString.Char8 as BS
 import           Data.Default.Class
+#if !MIN_VERSION_base(4,8,0)
 import           Data.Monoid
+#endif
 import           Data.Text.Strict.Lens (packed, utf8)
 import           Network.HTTP.Client
 import           Network.HTTP.Types    (Method)

@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP                        #-}
 {-# LANGUAGE DeriveDataTypeable         #-}
 {-# LANGUAGE DeriveGeneric              #-}
 {-# LANGUAGE FlexibleInstances          #-}
@@ -87,7 +88,9 @@ module WUnderground.Types
 
 
 -------------------------------------------------------------------------------
+#if !MIN_VERSION_base(4,8,0)
 import           Control.Applicative
+#endif
 import           Control.Exception
 import           Control.Lens
 import           Control.Monad.Catch
@@ -113,10 +116,10 @@ import           URI.ByteString
 -- Client Types
 -------------------------------------------------------------------------------
 data WUConfig = WUConfig {
-      _wuManager :: Manager
+      _wuManager     :: Manager
     -- ^ Note that if you provide an alternative URI that uses SSL, you should use manager settings from @http-client-tls@
-    , _wuBaseURI :: URI
-    , _wuAPIKey  :: APIKey
+    , _wuBaseURI     :: URI
+    , _wuAPIKey      :: APIKey
     , _wuHttpRequest :: Request -> Manager -> IO LBS.ByteString
     -- ^ Swappable http backend for testing
     } deriving (Typeable)
