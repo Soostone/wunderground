@@ -35,7 +35,7 @@ before_install:
     fi
 
 install:
-  - $CABAL install --dependencies-only --enable-tests
+  - $CABAL install --dependencies-only --enable-tests --force-reinstalls
   - $CABAL configure --enable-tests -flib-Werror
 
 script:
