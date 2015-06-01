@@ -88,9 +88,7 @@ module WUnderground.Types
 
 
 -------------------------------------------------------------------------------
-#if !MIN_VERSION_base(4,8,0)
 import           Control.Applicative
-#endif
 import           Control.Exception
 import           Control.Lens
 import           Control.Monad.Catch
